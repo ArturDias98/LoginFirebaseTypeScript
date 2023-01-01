@@ -58,6 +58,7 @@ button[disabled] {
   color: orangered;
   display: none;
   margin: 3px 0 0 1px;
+  font-size: 12px;
 }
 .inputHeader {
   margin: 5px 5px 5px 1px;
