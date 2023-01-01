@@ -1,6 +1,7 @@
 import * as util from "./util/utilities";
 
 const loginBtn = document.getElementById("login-btn") as HTMLButtonElement;
+loginBtn.onclick = loginClick;
 const recoveryBtn = document.getElementById("recoveryBtn") as HTMLButtonElement;
 
 //Inputs
@@ -19,11 +20,12 @@ const passwordError = document.getElementById(
 email.oninput = OnEmailChanged;
 password.oninput = OnPasswordChanged;
 
+toggleButtons();
 //Raises when input value changes.
 function OnEmailChanged() {
   toggleButtons();
 
-  const message = util.validateEmail(email.value);
+  const message = util.validateEmailMessage(email.value);
   const check = message.length > 0;
   const display = check ? "block" : "none";
   changeSpanLayout(emailError, message, display);
@@ -32,16 +34,18 @@ function OnEmailChanged() {
 function OnPasswordChanged() {
   toggleButtons();
 
-  const message = util.validatePassword(password.value);
+  const message = util.validatePasswordMessage(password.value);
   const check = message.length > 0;
   const display = check ? "block" : "none";
   changeSpanLayout(passwordError, message, display);
 }
 
 function toggleButtons() {
-  recoveryBtn.disabled = !util.validateEmail(email.value);
-  loginBtn.disabled =
-    !util.validateEmail(email.value) || !util.validatePassword(password.value);
+  const checkEmail = !util.validateEmail(email.value);
+  const checkPassword = !util.validatePassword(password.value);
+
+  recoveryBtn.disabled = checkEmail;
+  loginBtn.disabled = checkEmail || checkPassword;
 }
 
 function changeSpanLayout(
@@ -52,4 +56,8 @@ function changeSpanLayout(
   span.style.display = mode;
   span.style.color = "orangered";
   span.innerText = message;
+}
+
+function loginClick() {
+  window.location.href = "render/home.html";
 }
