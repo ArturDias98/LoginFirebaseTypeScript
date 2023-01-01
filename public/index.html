@@ -10,26 +10,37 @@
     <form>
       <div>
         <div><label>Email</label></div>
-        <input type="email" name="email" placeholder="email@email.com" />
+        <input
+          type="email"
+          name="email"
+          placeholder="email@email.com"
+          id="emailInput"
+        />
       </div>
 
       <div>
         <div><label>Password</label></div>
-        <input type="password" name="password" placeholder="Password" />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          id="passwordInput"
+        />
       </div>
 
       <div>
-        <button type="button" class="clear">Recovery Password</button>
+        <button type="button" class="clear" id="recoveryBtn">Recovery Password</button>
       </div>
 
       <div>
-        <button type="button" class="solid">Login</button>
+        <button type="button" class="solid" id="login-btn">Login</button>
       </div>
 
       <div>
-        <button type="button" class="outline">Create account</button>
+        <button type="button" class="outline" id="newAccount-btn">
+          Create account
+        </button>
       </div>
-
     </form>
     <script src="./dist/index.js"></script>
   </body>
