@@ -1,57 +1,57 @@
-export class Form {
-  //Buttons
-  private loginBtn = document.getElementById("login-btn") as HTMLButtonElement;
-  private recoveryBtn = document.getElementById(
-    "recoveryBtn"
-  ) as HTMLButtonElement;
+const loginBtn = document.getElementById("login-btn") as HTMLButtonElement;
+const recoveryBtn = document.getElementById("recoveryBtn") as HTMLButtonElement;
 
-  //Inputs
-  private email = document.getElementById("emailInput") as HTMLInputElement;
-  private password = document.getElementById(
-    "passwordInput"
-  ) as HTMLInputElement;
+//Inputs
+const email = document.getElementById("emailInput") as HTMLInputElement;
+const password = document.getElementById("passwordInput") as HTMLInputElement;
 
-  //Span messages
-  private emailError = document.getElementById(
-    "emailErrorMessage"
-  ) as HTMLSpanElement;
-  private passwordError = document.getElementById(
-    "passwordErrorMessage"
-  ) as HTMLSpanElement;
+//Span messages
+const emailError = document.getElementById(
+  "emailErrorMessage"
+) as HTMLSpanElement;
+const passwordError = document.getElementById(
+  "passwordErrorMessage"
+) as HTMLSpanElement;
 
-  constructor() {
-    this.loginBtn.disabled = true;
-    this.recoveryBtn.disabled = true;
+//Add events
+email.oninput = OnEmailChanged;
+password.oninput = OnPasswordChanged;
 
-    this.email.oninput = this.OnEmailChanged;
-    this.password.oninput = this.OnPasswordChanged;
-  }
-
-  private OnEmailChanged() {
-    this.toggleButtons();
-    this.emailError.style.display = !this.email.value ? "block" : "none";
-    this.emailError.innerText = !this.email.value ? "Email is required" : "";
-  }
-  private OnPasswordChanged() {
-    this.toggleButtons();
-    this.passwordError.style.display = !this.password.value ? "block" : "none";
-    this.passwordError.innerText = !this.password.value ? "Password is required" : "";
-  }
-
-  private validateEmail(): boolean {
-    return /\S+@\S+\.\S+/.test(this.email.value);
-  }
-  
-  private validatePassword(): boolean {
-    if (!this.password.value) {
-      return false;
-    }
-    return true;
-  }
-  
-  private toggleButtons() {
-    this.recoveryBtn.disabled = !this.validateEmail();
-    this.loginBtn.disabled = !this.validateEmail() || !this.validatePassword();
-  }
-
+function Default() {
+  toggleButtons();
 }
+//Raises when input value changes.
+function OnEmailChanged() {
+  toggleButtons();
+
+  emailError.style.display = !email.value ? "block" : "none";
+  emailError.innerText = !email.value ? "Email is required" : "";
+}
+
+function OnPasswordChanged() {
+  toggleButtons();
+  passwordError.style.display = !password.value ? "block" : "none";
+  passwordError.innerText = !password.value ? "Password is required" : "";
+}
+
+function validateEmail(): boolean {
+  return /\S+@\S+\.\S+/.test(email.value);
+}
+
+function validatePassword(): boolean {
+  if (!password.value) {
+    return false;
+  }
+  return true;
+}
+
+function toggleButtons() {
+  recoveryBtn.disabled = !validateEmail();
+  loginBtn.disabled = !validateEmail() || !validatePassword();
+}
+
+const Form = {
+  default: Default,
+};
+
+export { Form };
