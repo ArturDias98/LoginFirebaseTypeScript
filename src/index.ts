@@ -1,33 +1,40 @@
+import { Form } from "./login";
+
+const form = new Form;
+
 const loginBtn = document.getElementById("login-btn") as HTMLButtonElement;
 loginBtn.disabled = true;
-loginBtn.onclick = LogInClick;
 
 const recoveryBtn = document.getElementById("recoveryBtn") as HTMLButtonElement;
 recoveryBtn.disabled = true;
 
 const email = document.getElementById("emailInput") as HTMLInputElement;
-email.oninput = OnInputChanged;
+email.oninput = OnEmailChanged;
 
 const password = document.getElementById("passwordInput") as HTMLInputElement;
-password.oninput = OnInputChanged;
+password.oninput = OnPasswordChanged;
 
-const emailError = document.getElementById("emailErrorMessage") as HTMLDivElement;
-const passwordError = document.getElementById("passwordErrorMessage") as HTMLDivElement;
+const emailError = document.getElementById(
+  "emailErrorMessage"
+) as HTMLSpanElement;
+
+const passwordError = document.getElementById(
+  "passwordErrorMessage"
+) as HTMLSpanElement;
 
 //Raises when input value changes.
-function OnInputChanged() {
-  recoveryBtn.disabled = !validateEmail();
-  loginBtn.disabled = !validateEmail() || !validatePassword();
+function OnEmailChanged() {
+  toggleButtons();
 
   emailError.style.display = !email.value ? "block" : "none";
-  emailError.innerText = !email.value ? "Email is required":  "";
-
-  passwordError.style.display = !password.value ? "block" : "none";
-  passwordError.innerText = !password.value ? "Password is required":  "";
-
+  emailError.innerText = !email.value ? "Email is required" : "";
 }
 
-function LogInClick() {}
+function OnPasswordChanged() {
+  toggleButtons();
+  passwordError.style.display = !password.value ? "block" : "none";
+  passwordError.innerText = !password.value ? "Password is required" : "";
+}
 
 function validateEmail(): boolean {
   return /\S+@\S+\.\S+/.test(email.value);
@@ -38,4 +45,9 @@ function validatePassword(): boolean {
     return false;
   }
   return true;
+}
+
+function toggleButtons() {
+  recoveryBtn.disabled = !validateEmail();
+  loginBtn.disabled = !validateEmail() || !validatePassword();
 }

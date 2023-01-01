@@ -1,5 +1,5 @@
 body {
-  background: rgb(45, 211, 111);
+  background: #3f3f3f;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,11 +7,23 @@ body {
 }
 form {
   width: 300px;
+  color: white;
+  font: sans-serif;
 }
 input {
-  border: none;
+  padding: 8px 5px;
+  outline: none;
+  border-radius: 5px;
+  border: 2px solid black;
+  box-sizing: border-box;
+  transition: 0.3s;
+  width: -webkit-fill-available;
+  margin: 2px 2px 2px 0px;
 }
-input,
+input:focus {
+  border-color: whitesmoke;
+}
+
 button {
   padding: 10px;
   margin-bottom: 10px;
@@ -34,7 +46,7 @@ button[disabled] {
 .solid {
   background: white;
   border: none;
-  color: rgb(45, 211, 111);
+  color: black;
 }
 .outline {
   background: transparent;
@@ -43,7 +55,10 @@ button[disabled] {
 }
 
 .error {
-  color: white;
-  background: orangered;
+  color: orangered;
   display: none;
+  margin: 3px 0 0 1px;
+}
+.inputHeader {
+  margin: 5px 5px 5px 1px;
 }
