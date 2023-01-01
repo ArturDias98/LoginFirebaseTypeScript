@@ -23,21 +23,6 @@ input {
 input:focus {
   border-color: whitesmoke;
 }
-
-button {
-  padding: 10px;
-  margin-bottom: 10px;
-  width: -webkit-fill-available;
-}
-button {
-  cursor: pointer;
-}
-button:active {
-  opacity: 0.8;
-}
-button[disabled] {
-  opacity: 0.7;
-}
 .clear {
   background: transparent;
   border: none;
@@ -53,13 +38,9 @@ button[disabled] {
   color: white;
   border: 1px solid white;
 }
-
-.error {
-  color: orangered;
-  display: none;
-  margin: 3px 0 0 1px;
-  font-size: 12px;
-}
 .inputHeader {
   margin: 5px 5px 5px 1px;
+}
+.form-field {
+  margin-bottom: 10px;
 }
