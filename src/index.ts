@@ -11,10 +11,20 @@ email.oninput = OnInputChanged;
 const password = document.getElementById("passwordInput") as HTMLInputElement;
 password.oninput = OnInputChanged;
 
+const emailError = document.getElementById("emailErrorMessage") as HTMLDivElement;
+const passwordError = document.getElementById("passwordErrorMessage") as HTMLDivElement;
+
 //Raises when input value changes.
 function OnInputChanged() {
   recoveryBtn.disabled = !validateEmail();
   loginBtn.disabled = !validateEmail() || !validatePassword();
+
+  emailError.style.display = !email.value ? "block" : "none";
+  emailError.innerText = !email.value ? "Email is required":  "";
+
+  passwordError.style.display = !password.value ? "block" : "none";
+  passwordError.innerText = !password.value ? "Password is required":  "";
+
 }
 
 function LogInClick() {}
