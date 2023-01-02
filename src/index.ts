@@ -1,4 +1,5 @@
 import * as util from "./util/utilities";
+import * as loading from "./loading"
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
@@ -77,6 +78,7 @@ async function loginClick() {
   //window.location.href = "pages/home.html";
   const auth = getAuth();
 
+  loading.showLoading();
   try {
     const credential = await signInWithEmailAndPassword(
       auth,
@@ -87,6 +89,7 @@ async function loginClick() {
   } catch (error) {
     alert("User not found");
   }
+  loading.hideLoading();
 }
 function registerClick() {
   window.location.href = "pages/register.html";
