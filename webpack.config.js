@@ -3,7 +3,10 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: "./src/index.ts",
+  entry: {
+    'index':"./src/index.ts",
+    //'teste':"./src/teste.ts",
+  },
   module: {
     rules: [
       {
@@ -16,12 +19,13 @@ module.exports = {
   optimization: {
     emitOnErrors: false,
   },
+  devtool: 'inline-source-map',
   plugins: [new ForkTsCheckerWebpackPlugin()],
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    filename: "index.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "public", "dist"),
   },
 };
