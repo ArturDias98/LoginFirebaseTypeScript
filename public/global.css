@@ -67,9 +67,25 @@ input:focus {
   color: white;
   border: 1px solid white;
 }
-.header{
+.header {
   font-size: 24px;
   margin-bottom: 10px;
   padding: 2px;
 }
-
+button.fab {
+  width: 54px;
+  height: 54px;
+  border-radius: 50px;
+  border: none;
+  font-size: 24px;
+  box-shadow: 2px 2px 2px gray;
+}
+button.fab.fixed {
+  position: fixed;
+}
+button.fab.bottom {
+  bottom: 32px;
+}
+button.fab.right {
+  right: 32px;
+}
