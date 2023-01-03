@@ -6,6 +6,7 @@ module.exports = {
   entry: {
     'index':"./src/index.ts",
     'register':"./src/register.ts",
+    'home':"./src/home.ts",
   },
   module: {
     rules: [

@@ -29,6 +29,8 @@ password.oninput = OnPasswordChanged;
 
 toggleButtons();
 
+firebase.userStateChanged("pages/home.html");
+
 //Raises when input value changes.
 function OnEmailChanged() {
   toggleButtons();

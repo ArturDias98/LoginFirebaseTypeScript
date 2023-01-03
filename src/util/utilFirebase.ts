@@ -4,6 +4,8 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 import { firebaseErrorMessages } from "./utilities";
 
@@ -31,13 +33,13 @@ export async function Login(
     return (model = {
       result: true,
       message: "",
-      error:null,
+      error: null,
     });
   } catch (error: any) {
     return (model = {
       result: false,
       message: firebaseErrorMessages(error.code),
-      error:error,
+      error: error,
     });
   }
 }
@@ -48,13 +50,13 @@ export async function RequestEmail(email: string): Promise<MessageModel> {
     return (model = {
       result: true,
       message: "Email sent successfully",
-      error:null,
+      error: null,
     });
   } catch (error: any) {
     return (model = {
       result: false,
       message: firebaseErrorMessages(error.code),
-      error:error,
+      error: error,
     });
   }
 }
@@ -68,13 +70,30 @@ export async function RegisterNewUser(
     return (model = {
       result: true,
       message: "Successfully registered user",
-      error:null,
+      error: null,
     });
   } catch (error: any) {
     return (model = {
       result: false,
       message: firebaseErrorMessages(error.code),
-      error:error,
+      error: error,
+    });
+  }
+}
+export async function LogOut(): Promise<MessageModel> {
+  let model: MessageModel;
+  try {
+    await signOut(auth);
+    return (model = {
+      result: true,
+      message: "",
+      error: null,
+    });
+  } catch (error: any) {
+    return (model = {
+      result: false,
+      message: "Cannot logout",
+      error: error,
     });
   }
 }
@@ -82,5 +101,13 @@ export async function RegisterNewUser(
 export type MessageModel = {
   result: boolean;
   message: string;
-  error:any;
+  error: any;
 };
+
+export function userStateChanged(page: string) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.location.href = page;
+    }
+  });
+}
