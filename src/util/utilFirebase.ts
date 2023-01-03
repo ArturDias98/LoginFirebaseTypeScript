@@ -97,7 +97,10 @@ export async function LogOut(): Promise<MessageModel> {
     });
   }
 }
-//Keep signed users logged.
+/**
+ * Keep signed users logged.
+ * @param page 
+ */
 export function UserStateChanged(page: string) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -105,7 +108,10 @@ export function UserStateChanged(page: string) {
     }
   });
 }
-//Keep unsigned users out of home page
+/**
+ * Keep unsigned users out of home page
+ * @param page 
+ */
 export function AuthGuard(page:string){
   onAuthStateChanged(auth, (user) => {
     if (!user) {
