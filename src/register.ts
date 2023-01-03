@@ -30,6 +30,7 @@ const registerBtn = document.getElementById(
 ) as HTMLButtonElement;
 registerBtn.onclick = OnRegister;
 
+//Events
 function OnEmailChanged() {
   const message = util.validateEmailMessage(email.value);
   const check = message.length > 0;
@@ -55,6 +56,7 @@ function OnRegister(){
 
 }
 
+//Methods
 function comparePassword() {
   const message = util.comparePasswordMessage(
     confirm_password.value,
