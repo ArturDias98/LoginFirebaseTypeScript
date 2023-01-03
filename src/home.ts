@@ -1,4 +1,5 @@
 import * as firebase from "./util/utilFirebase";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 const logoutBtn = document.getElementById("logout-btn") as HTMLButtonElement;
 logoutBtn.onclick = OnLogout;
@@ -9,28 +10,7 @@ const transactionList = document.getElementById(
 
 firebase.AuthGuard("../index.html");
 
-let defaultTransactions: Transaction[] = [
-  {
-    type: "expense",
-    date: "2022-01-04",
-    money: { currency: "R$", value: 10 },
-    info: "Market",
-  },
-  {
-    type: "income",
-    date: "2022-01-05",
-    money: { currency: "EUR", value: 5000 },
-    info: "Salary",
-    description: "Microsoft",
-  },
-  {
-    type: "expense",
-    date: "2022-01-06",
-    money: { currency: "USD", value: 2000 },
-    info: "Travel",
-    description: "United States",
-  },
-];
+const firestore = getFirestore();
 
 findTransactions();
 
@@ -43,8 +23,10 @@ async function OnLogout() {
   window.location.href = "../index.html";
 }
 
-function findTransactions() {
-  addTransactionsToScreen(defaultTransactions);
+async function findTransactions() {
+  let data = await getDocs(collection(firestore, "transactions"));
+  const transactions = data.docs.map(doc => doc.data()) as Transaction[];
+  addTransactionsToScreen(transactions); 
 }
 function addTransactionsToScreen(transactions: Transaction[]) {
   transactions.forEach((transaction) => {
@@ -68,7 +50,6 @@ function addTransactionsToScreen(transactions: Transaction[]) {
       description.innerHTML = transaction.description;
       li.appendChild(description);
     }
-
     transactionList.appendChild(li);
   });
 }
