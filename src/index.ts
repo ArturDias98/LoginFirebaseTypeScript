@@ -29,7 +29,7 @@ password.oninput = OnPasswordChanged;
 
 toggleButtons();
 
-firebase.userStateChanged("pages/home.html");
+firebase.UserStateChanged("pages/home.html");
 
 //Raises when input value changes.
 function OnEmailChanged() {

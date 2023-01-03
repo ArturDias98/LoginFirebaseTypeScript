@@ -35,7 +35,7 @@ registerBtn.onclick = OnRegister;
 const loginBtn = document.getElementById("login-btn") as HTMLButtonElement;
 loginBtn.onclick = OnLogin;
 
-firebase.userStateChanged("home.html");
+firebase.UserStateChanged("home.html");
 
 //Events
 function OnEmailChanged() {
@@ -72,7 +72,7 @@ async function OnRegister(e: any) {
 
   return false;
 }
-function OnLogin(){
+function OnLogin() {
   window.location.href = "../index.html";
 }
 

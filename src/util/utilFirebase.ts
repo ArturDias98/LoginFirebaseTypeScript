@@ -97,6 +97,22 @@ export async function LogOut(): Promise<MessageModel> {
     });
   }
 }
+//Keep signed users logged.
+export function UserStateChanged(page: string) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.location.href = page;
+    }
+  });
+}
+//Keep unsigned users out of home page
+export function AuthGuard(page:string){
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = page;
+    }
+  });
+}
 
 export type MessageModel = {
   result: boolean;
@@ -104,10 +120,4 @@ export type MessageModel = {
   error: any;
 };
 
-export function userStateChanged(page: string) {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      window.location.href = page;
-    }
-  });
-}
+
