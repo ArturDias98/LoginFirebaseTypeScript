@@ -31,10 +31,6 @@ const registerBtn = document.getElementById(
   "register-btn"
 ) as HTMLButtonElement;
 registerBtn.onclick = OnRegister;
-//registerBtn.disabled = false;
-
-/*const form = document.getElementById("form") as HTMLFormElement;
-form.onsubmit = OnRegister;*/
 
 //Events
 function OnEmailChanged() {
@@ -64,7 +60,6 @@ async function OnRegister(e: any) {
   if (model.result) {
     window.location.href = "home.html";
   } else {
-    console.log(model.error.code);
     alert(model.message);
   }
 
