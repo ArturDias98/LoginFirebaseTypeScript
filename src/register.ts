@@ -1,4 +1,6 @@
 import * as util from "./util/utilities";
+import * as loading from "./loading";
+import * as firebase from "./util/utilFirebase";
 //Input
 const email = document.getElementById("email") as HTMLInputElement;
 email.oninput = OnEmailChanged;
@@ -29,6 +31,10 @@ const registerBtn = document.getElementById(
   "register-btn"
 ) as HTMLButtonElement;
 registerBtn.onclick = OnRegister;
+//registerBtn.disabled = false;
+
+/*const form = document.getElementById("form") as HTMLFormElement;
+form.onsubmit = OnRegister;*/
 
 //Events
 function OnEmailChanged() {
@@ -36,7 +42,6 @@ function OnEmailChanged() {
   const check = message.length > 0;
   const display = check ? "block" : "none";
   util.changeSpanLayout(emailError, message, display);
-
   toggleButton();
 }
 function OnPasswordChanged() {
@@ -52,8 +57,20 @@ function OnConfirmPasswordChanged() {
   comparePassword();
   toggleButton();
 }
-function OnRegister(){
+async function OnRegister(e: any) {
+  loading.showLoading();
 
+  const model = await firebase.RegisterNewUser(email.value, password.value);
+  if (model.result) {
+    window.location.href = "home.html";
+  } else {
+    console.log(model.error.code);
+    alert(model.message);
+  }
+
+  loading.hideLoading();
+
+  return false;
 }
 
 //Methods

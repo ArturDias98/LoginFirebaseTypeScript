@@ -11,8 +11,8 @@ export function validatePasswordMessage(value: string): string {
   }
   return !validatePassword(value) ? "Password not valid" : "";
 }
-export function comparePasswordMessage(value:string, compareValue:string){
-  if(!value) return "";
+export function comparePasswordMessage(value: string, compareValue: string) {
+  if (!value) return "";
   return value === compareValue ? "" : "Password doesn't match";
 }
 export function validateEmail(value: string): boolean {
@@ -33,7 +33,9 @@ export function firebaseErrorMessages(error: any) {
 
     case "auth/user-not-found":
       return "User not found";
-      
+
+    case "auth/network-request-failed":
+      return "Network request failed";
     default:
       return "Unknown";
   }

@@ -3,6 +3,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { firebaseErrorMessages } from "./utilities";
 
@@ -30,11 +31,13 @@ export async function Login(
     return (model = {
       result: true,
       message: "",
+      error:null,
     });
   } catch (error: any) {
     return (model = {
       result: false,
       message: firebaseErrorMessages(error.code),
+      error:error,
     });
   }
 }
@@ -45,11 +48,33 @@ export async function RequestEmail(email: string): Promise<MessageModel> {
     return (model = {
       result: true,
       message: "Email sent successfully",
+      error:null,
     });
   } catch (error: any) {
     return (model = {
-      result: true,
+      result: false,
       message: firebaseErrorMessages(error.code),
+      error:error,
+    });
+  }
+}
+export async function RegisterNewUser(
+  email: string,
+  password: string
+): Promise<MessageModel> {
+  let model: MessageModel;
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    return (model = {
+      result: true,
+      message: "Successfully registered user",
+      error:null,
+    });
+  } catch (error: any) {
+    return (model = {
+      result: false,
+      message: firebaseErrorMessages(error.code),
+      error:error,
     });
   }
 }
@@ -57,4 +82,5 @@ export async function RequestEmail(email: string): Promise<MessageModel> {
 export type MessageModel = {
   result: boolean;
   message: string;
+  error:any;
 };

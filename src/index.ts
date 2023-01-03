@@ -1,11 +1,6 @@
 import * as util from "./util/utilities";
+import * as firebase from "./util/utilFirebase";
 import * as loading from "./loading";
-import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-} from "firebase/auth";
 
 const loginBtn = document.getElementById("login-btn") as HTMLButtonElement;
 loginBtn.onclick = loginClick;
@@ -34,18 +29,6 @@ password.oninput = OnPasswordChanged;
 
 toggleButtons();
 
-// Initialize Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyBIQVYhOEl6rnitC9HCe564NUw1NdZC810",
-  authDomain: "login-671f2.firebaseapp.com",
-  projectId: "login-671f2",
-  storageBucket: "login-671f2.appspot.com",
-  messagingSenderId: "20202641939",
-  appId: "1:20202641939:web:fa3285c1a32c621759bde6",
-};
-
-const firebase = initializeApp(firebaseConfig);
-
 //Raises when input value changes.
 function OnEmailChanged() {
   toggleButtons();
@@ -72,32 +55,23 @@ function toggleButtons() {
 }
 
 async function loginClick() {
-  const auth = getAuth();
-
   loading.showLoading();
-  try {
-    const credential = await signInWithEmailAndPassword(
-      auth,
-      email.value,
-      password.value
-    );
+
+  const model = await firebase.Login(email.value, password.value);
+  if (model.result) {
     window.location.href = "pages/home.html";
-  } catch (error: any) {
-    alert(util.firebaseErrorMessages(error.code));
+  } else {
+    alert(model.message);
   }
+
   loading.hideLoading();
 }
 async function recoveryClick() {
   loading.showLoading();
-
-  const auth = getAuth();
-  try {
-    await sendPasswordResetEmail(auth, email.value);
-    alert("Email sent successfully");
-  } catch (error: any) {
-    alert(util.firebaseErrorMessages(error.code));
+  const model = await firebase.RequestEmail(email.value);
+  if (!model.result) {
+    alert(model.message);
   }
-
   loading.hideLoading();
 }
 function registerClick() {
