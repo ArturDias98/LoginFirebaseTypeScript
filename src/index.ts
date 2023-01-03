@@ -1,11 +1,16 @@
 import * as util from "./util/utilities";
-import * as loading from "./loading"
+import * as loading from "./loading";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 
 const loginBtn = document.getElementById("login-btn") as HTMLButtonElement;
 loginBtn.onclick = loginClick;
 const recoveryBtn = document.getElementById("recoveryBtn") as HTMLButtonElement;
+recoveryBtn.onclick = recoveryClick;
 const registerBtn = document.getElementById(
   "newAccount-btn"
 ) as HTMLButtonElement;
@@ -48,7 +53,7 @@ function OnEmailChanged() {
   const message = util.validateEmailMessage(email.value);
   const check = message.length > 0;
   const display = check ? "block" : "none";
-  changeSpanLayout(emailError, message, display);
+  util.changeSpanLayout(emailError, message, display);
 }
 function OnPasswordChanged() {
   toggleButtons();
@@ -56,7 +61,7 @@ function OnPasswordChanged() {
   const message = util.validatePasswordMessage(password.value);
   const check = message.length > 0;
   const display = check ? "block" : "none";
-  changeSpanLayout(passwordError, message, display);
+  util.changeSpanLayout(passwordError, message, display);
 }
 function toggleButtons() {
   const checkEmail = !util.validateEmail(email.value);
@@ -65,17 +70,8 @@ function toggleButtons() {
   recoveryBtn.disabled = checkEmail;
   loginBtn.disabled = checkEmail || checkPassword;
 }
-function changeSpanLayout(
-  span: HTMLSpanElement,
-  message: string,
-  mode: string
-) {
-  span.style.display = mode;
-  span.style.color = "orangered";
-  span.innerText = message;
-}
+
 async function loginClick() {
-  //window.location.href = "pages/home.html";
   const auth = getAuth();
 
   loading.showLoading();
@@ -86,9 +82,22 @@ async function loginClick() {
       password.value
     );
     window.location.href = "pages/home.html";
-  } catch (error) {
-    alert("User not found");
+  } catch (error: any) {
+    alert(util.firebaseErrorMessages(error.code));
   }
+  loading.hideLoading();
+}
+async function recoveryClick() {
+  loading.showLoading();
+
+  const auth = getAuth();
+  try {
+    await sendPasswordResetEmail(auth, email.value);
+    alert("Email sent successfully");
+  } catch (error: any) {
+    alert(util.firebaseErrorMessages(error.code));
+  }
+
   loading.hideLoading();
 }
 function registerClick() {

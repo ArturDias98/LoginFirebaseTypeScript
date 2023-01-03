@@ -1,6 +1,5 @@
 body {
   background: #3f3f3f;
-
   height: 100vh;
 }
 form {
@@ -8,37 +7,8 @@ form {
   color: white;
   font: sans-serif;
 }
-input {
-  padding: 8px 5px;
-  outline: none;
-  border-radius: 5px;
-  border: 2px solid black;
-  box-sizing: border-box;
-  transition: 0.3s;
-  width: -webkit-fill-available;
-  margin: 2px 2px 2px 0px;
-}
-input:focus {
-  border-color: whitesmoke;
-}
-.clear {
-  background: transparent;
-  border: none;
-  color: white;
-}
-.solid {
-  background: white;
-  border: none;
-  color: black;
-}
-.outline {
-  background: transparent;
-  color: white;
-  border: 1px solid white;
-}
+
+
 .inputHeader {
   margin: 5px 5px 5px 1px;
-}
-.form-field {
-  margin-bottom: 10px;
 }

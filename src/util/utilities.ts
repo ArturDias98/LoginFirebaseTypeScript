@@ -11,6 +11,10 @@ export function validatePasswordMessage(value: string): string {
   }
   return !validatePassword(value) ? "Password not valid" : "";
 }
+export function comparePasswordMessage(value:string, compareValue:string){
+  if(!value) return "";
+  return value === compareValue ? "" : "Password doesn't match";
+}
 export function validateEmail(value: string): boolean {
   return /\S+@\S+\.\S+/.test(value);
 }
@@ -18,4 +22,28 @@ export function validatePassword(value: string): boolean {
   if (value.length < 4) return false;
 
   return true;
+}
+export function firebaseErrorMessages(error: any) {
+  switch (error) {
+    case "auth/user-not-found":
+      return "User not found";
+
+    case "auth/wrong-password":
+      return "Wrong password";
+
+    case "auth/user-not-found":
+      return "User not found";
+      
+    default:
+      return "Unknown";
+  }
+}
+export function changeSpanLayout(
+  span: HTMLSpanElement,
+  message: string,
+  mode: string
+) {
+  span.style.display = mode;
+  span.style.color = "orangered";
+  span.innerText = message;
 }

@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Login</title>
+    <title>Register</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../style.css" rel="stylesheet" />
     <link href="../global.css" rel="stylesheet" />
   </head>
-  <body>
-    Register
-    
+  <body class="centralize">
+    <form>
+      <div class="header">
+        <label>Register</label>
+      </div>
+      <div class="form-field">
+        <input type="email" placeholder="email@email.com" id="email"/>
+        <span class="error" id="emailErrorMessage"></div>
+      </div>
+      <div class="form-field">
+        <input type="password" placeholder="Password (4+ characters)" id="password"/>
+        <span class="error" id="passwordErrorMessage"></div>
+      </div>
+      <div class="form-field">
+        <input type="password" placeholder="Confirm password" id="password-confirm"/>
+        <span class="error" id="confirmPasswordErrorMessage"></div>
+      </div>
+      <div>
+        <button class="solid" disabled="true" id="register-btn">Register</button>
+      </div>
+      <div>
+        <button class="outline" id="login-btn">Login</button>
+      </div>
+    </form>
+    <script src="../dist/register.js"></script>
   </body>
 </html>

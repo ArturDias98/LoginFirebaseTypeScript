@@ -5,7 +5,7 @@ module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
     'index':"./src/index.ts",
-    //'teste':"./src/teste.ts",
+    'register':"./src/register.ts",
   },
   module: {
     rules: [
