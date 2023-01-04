@@ -23,7 +23,8 @@
         </div>
         <div class="form-field">
           <div><label>Date</label></div>
-          <input type="date" />
+          <input type="date" id="date"/>
+          <span class="error" id="dateErrorMessage"></div>
         </div>
         <div class="form-field">
           <div><label>Currency</label></div>
@@ -35,25 +36,28 @@
         </div>
         <div class="form-field">
           <div><label>Value</label></div>
-          <input type="number" />
+          <input type="number" id="value"/>
+          <span class="error" id="valueErrorMessage"></div>
         </div>
         <div class="form-field">
           <div><label>Type of transaction</label></div>
-          <select>
-            <option>-- Select type --</option>
+          <select id="type-transaction">
+            <option value="">-- Select type --</option>
             <option>Market</option>
             <option>Other</option>
             <option>Trip</option>
             <option>School</option>
           </select>
+          <span class="error" id="infoErrorMessage"></div>
         </div>
         <div class="form-field">
             <div><label>Description</label></div>
             <input type="text" />
         </div>
-        <button class="solid" type="button">Save</button>
+        <button class="solid" type="button" id="save-btn" disabled >Save</button>
         <button class="clear" type="button">Cancel</button>
       </form>
     </main>
+    <script src="../dist/transaction.js"></script>
   </body>
 </html>
