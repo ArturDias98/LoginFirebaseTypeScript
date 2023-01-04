@@ -8,6 +8,14 @@ import {
   signOut,
   User,
 } from "firebase/auth";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  where,
+  query,
+  orderBy,
+} from "firebase/firestore";
 import { firebaseErrorMessages } from "./utilities";
 
 // Initialize Firebase
@@ -23,6 +31,8 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig);
 
 const auth = getAuth();
+
+const firestore = getFirestore();
 
 export async function Login(
   email: string,
@@ -98,6 +108,22 @@ export async function LogOut(): Promise<MessageModel> {
     });
   }
 }
+export async function GetTransactions(user:User): Promise<Transaction[]> {
+  //Creating a query
+  const collect = collection(firestore, "transactions");
+
+  const _query = query(
+    collect,
+    where("user.uid", "==", user.uid),
+    orderBy("date", "desc")
+  );
+
+  let data = await getDocs(_query);
+
+  const transactions = data.docs.map((doc) => doc.data()) as Transaction[];
+  return transactions;
+
+}
 /**
  * Keep signed users logged.
  * @param page
@@ -125,4 +151,15 @@ export type MessageModel = {
   result: boolean;
   message: string;
   error: any;
+};
+export type Transaction = {
+  type: string;
+  date: string;
+  money: Money;
+  info: string;
+  description?: string;
+};
+export type Money = {
+  currency: string;
+  value: number;
 };

@@ -1,5 +1,6 @@
 import * as firebase from "./util/utilFirebase";
-import { getFirestore, collection, getDocs, where , query} from "firebase/firestore";
+import * as loading from "./loading";
+
 import { User } from "firebase/auth";
 
 const logoutBtn = document.getElementById("logout-btn") as HTMLButtonElement;
@@ -12,9 +13,7 @@ const transactionList = document.getElementById(
 firebase.AuthGuard("../index.html");
 firebase.UserStateChanged(findTransactions);
 
-const firestore = getFirestore();
 
-//findTransactions();
 
 async function OnLogout() {
   const _result = await firebase.LogOut();
@@ -25,16 +24,14 @@ async function OnLogout() {
   window.location.href = "../index.html";
 }
 
-async function findTransactions(user:User) {
-  //Creating a query
-  const collect  = collection(firestore, "transactions");
-  const _query = query(collect, where("user.uid", "==", user.uid));
-  let data = await getDocs(_query);
-  const transactions = data.docs.map(doc => doc.data()) as Transaction[];
-  addTransactionsToScreen(transactions);
+async function findTransactions(user: User) {
+  loading.showLoading();
   
+  addTransactionsToScreen(await firebase.GetTransactions(user));
+
+  loading.hideLoading();
 }
-function addTransactionsToScreen(transactions: Transaction[]) {
+function addTransactionsToScreen(transactions: firebase.Transaction[]) {
   transactions.forEach((transaction) => {
     const li = document.createElement("li") as HTMLLIElement;
     li.classList.add(transaction.type);
@@ -58,22 +55,13 @@ function addTransactionsToScreen(transactions: Transaction[]) {
     }
     transactionList.appendChild(li);
   });
+  
 }
 function formateDate(date: string) {
   return new Date(date).toLocaleDateString("pt-br");
 }
-function formatMoney(money: Money): string {
+function formatMoney(money: firebase.Money): string {
   return `${money.currency} ${money.value.toFixed(2)}`;
 }
 
-type Transaction = {
-  type: string;
-  date: string;
-  money: Money;
-  info: string;
-  description?: string;
-};
-type Money = {
-  currency: string;
-  value: number;
-};
+
