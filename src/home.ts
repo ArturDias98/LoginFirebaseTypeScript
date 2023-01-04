@@ -6,14 +6,17 @@ import { User } from "firebase/auth";
 const logoutBtn = document.getElementById("logout-btn") as HTMLButtonElement;
 logoutBtn.onclick = OnLogout;
 
+const transactionBtn = document.getElementById(
+  "transaction-btn"
+) as HTMLButtonElement;
+transactionBtn.onclick = OnAddNewTransaction;
+
 const transactionList = document.getElementById(
   "transactions"
 ) as HTMLOListElement;
 
 firebase.AuthGuard("../index.html");
 firebase.UserStateChanged(findTransactions);
-
-
 
 async function OnLogout() {
   const _result = await firebase.LogOut();
@@ -23,10 +26,13 @@ async function OnLogout() {
   }
   window.location.href = "../index.html";
 }
+function OnAddNewTransaction() {
+  window.location.href = "./transaction.html";
+}
 
 async function findTransactions(user: User) {
   loading.showLoading();
-  
+
   addTransactionsToScreen(await firebase.GetTransactions(user));
 
   loading.hideLoading();
@@ -55,7 +61,6 @@ function addTransactionsToScreen(transactions: firebase.Transaction[]) {
     }
     transactionList.appendChild(li);
   });
-  
 }
 function formateDate(date: string) {
   return new Date(date).toLocaleDateString("pt-br");
@@ -63,5 +68,3 @@ function formateDate(date: string) {
 function formatMoney(money: firebase.Money): string {
   return `${money.currency} ${money.value.toFixed(2)}`;
 }
-
-

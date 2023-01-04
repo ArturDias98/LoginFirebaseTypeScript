@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../style.css" rel="stylesheet" />
+    <link href="../global.css" rel="stylesheet" />
+    <title>Transaction</title>
+  </head>
+  <body>
+    <header>
+      <button type="button" class="clear">Logout</button>
+    </header>
+    <main class="centralize">
+      <form>
+        <div class="form-field">
+          <div class="header"><label>Transaction</label></div>
+          <input type="radio" name="type" checked id="expense" />
+          <label for="expense">Expense</label>
+          <input type="radio" name="type" checked id="income" />
+          <label for="income">Income</label>
+        </div>
+        <div class="form-field">
+          <div><label>Date</label></div>
+          <input type="date" />
+        </div>
+        <div class="form-field">
+          <div><label>Currency</label></div>
+          <select>
+            <option>USD</option>
+            <option>EUR</option>
+            <option selected>BRL</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <div><label>Value</label></div>
+          <input type="number" />
+        </div>
+        <div class="form-field">
+          <div><label>Type of transaction</label></div>
+          <select>
+            <option>-- Select type --</option>
+            <option>Market</option>
+            <option>Other</option>
+            <option>Trip</option>
+            <option>School</option>
+          </select>
+        </div>
+        <div class="form-field">
+            <div><label>Description</label></div>
+            <input type="text" />
+        </div>
+        <button class="solid" type="button">Save</button>
+        <button class="clear" type="button">Cancel</button>
+      </form>
+    </main>
+  </body>
+</html>

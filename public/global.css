@@ -1,7 +1,11 @@
-button {
+button,
+select {
   padding: 10px;
   margin-bottom: 10px;
   width: -webkit-fill-available;
+}
+input[type="radio"] {
+  width: auto;
 }
 button {
   cursor: pointer;
@@ -89,4 +93,10 @@ button.fab.bottom {
 }
 button.fab.right {
   right: 32px;
+}
+header button {
+  width: auto;
+}
+header {
+  text-align: right;
 }

@@ -1,29 +1,22 @@
-header button{
-    width: auto;
+ol {
+  list-style-type: none;
+  padding: 0;
 }
-header{
-    text-align: right;
+ol li {
+  cursor: pointer;
+  background: whitesmoke;
+  padding: 8px 16px;
+  border-bottom: 1px solid gray;
 }
-ol{
-    list-style-type: none;
-    padding: 0;
-
+ol li:hover {
+  opacity: 0.8;
 }
-ol li{
-    cursor:pointer;
-    background: whitesmoke;
-    padding: 8px 16px;
-    border-bottom: 1px solid gray;
+ol li.expense {
+  border-left: 10px solid orangered;
 }
-ol li:hover{
-    opacity: 0.8;
+ol li.income {
+  border-left: 10px solid green;
 }
-ol li.expense{
-    border-left: 10px solid orangered;
-}
-ol li.income{
-    border-left: 10px solid green;
-}
-p{
-    margin: 4px 0;
+p {
+  margin: 4px 0;
 }
