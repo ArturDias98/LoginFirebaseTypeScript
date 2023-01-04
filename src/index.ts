@@ -1,6 +1,7 @@
 import * as util from "./util/utilities";
 import * as firebase from "./util/utilFirebase";
 import * as loading from "./loading";
+import { User } from "firebase/auth";
 
 const loginBtn = document.getElementById("login-btn") as HTMLButtonElement;
 loginBtn.onclick = loginClick;
@@ -29,7 +30,7 @@ password.oninput = OnPasswordChanged;
 
 toggleButtons();
 
-firebase.UserStateChanged("pages/home.html");
+firebase.UserStateChanged(statusChange);
 
 //Raises when input value changes.
 function OnEmailChanged() {
@@ -56,6 +57,9 @@ function toggleButtons() {
   loginBtn.disabled = checkEmail || checkPassword;
 }
 
+function statusChange(user:User){
+  window.location.href = "pages/home.html";
+}
 async function loginClick() {
   loading.showLoading();
 

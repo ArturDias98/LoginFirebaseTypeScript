@@ -1,5 +1,6 @@
 import * as firebase from "./util/utilFirebase";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, where , query} from "firebase/firestore";
+import { User } from "firebase/auth";
 
 const logoutBtn = document.getElementById("logout-btn") as HTMLButtonElement;
 logoutBtn.onclick = OnLogout;
@@ -9,10 +10,11 @@ const transactionList = document.getElementById(
 ) as HTMLOListElement;
 
 firebase.AuthGuard("../index.html");
+firebase.UserStateChanged(findTransactions);
 
 const firestore = getFirestore();
 
-findTransactions();
+//findTransactions();
 
 async function OnLogout() {
   const _result = await firebase.LogOut();
@@ -23,10 +25,14 @@ async function OnLogout() {
   window.location.href = "../index.html";
 }
 
-async function findTransactions() {
-  let data = await getDocs(collection(firestore, "transactions"));
+async function findTransactions(user:User) {
+  //Creating a query
+  const collect  = collection(firestore, "transactions");
+  const _query = query(collect, where("user.uid", "==", user.uid));
+  let data = await getDocs(_query);
   const transactions = data.docs.map(doc => doc.data()) as Transaction[];
-  addTransactionsToScreen(transactions); 
+  addTransactionsToScreen(transactions);
+  
 }
 function addTransactionsToScreen(transactions: Transaction[]) {
   transactions.forEach((transaction) => {

@@ -1,6 +1,7 @@
 import * as util from "./util/utilities";
 import * as loading from "./loading";
 import * as firebase from "./util/utilFirebase";
+import { User } from "firebase/auth";
 //Input
 const email = document.getElementById("email") as HTMLInputElement;
 email.oninput = OnEmailChanged;
@@ -35,7 +36,7 @@ registerBtn.onclick = OnRegister;
 const loginBtn = document.getElementById("login-btn") as HTMLButtonElement;
 loginBtn.onclick = OnLogin;
 
-firebase.UserStateChanged("home.html");
+firebase.UserStateChanged(statusChange);
 
 //Events
 function OnEmailChanged() {
@@ -74,6 +75,9 @@ async function OnRegister(e: any) {
 }
 function OnLogin() {
   window.location.href = "../index.html";
+}
+function statusChange(user:User){
+  window.location.href = "home.html";
 }
 
 //Methods

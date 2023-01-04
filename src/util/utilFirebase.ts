@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
+  User,
 } from "firebase/auth";
 import { firebaseErrorMessages } from "./utilities";
 
@@ -99,31 +100,29 @@ export async function LogOut(): Promise<MessageModel> {
 }
 /**
  * Keep signed users logged.
- * @param page 
+ * @param page
  */
-export function UserStateChanged(page: string) {
+export function UserStateChanged(callback: (user: User) => void) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      window.location.href = page;
+      //
+      callback(user);
     }
   });
 }
 /**
  * Keep unsigned users out of home page
- * @param page 
+ * @param page
  */
-export function AuthGuard(page:string){
+export function AuthGuard(page: string) {
   onAuthStateChanged(auth, (user) => {
     if (!user) {
       window.location.href = page;
     }
   });
 }
-
 export type MessageModel = {
   result: boolean;
   message: string;
   error: any;
 };
-
-
