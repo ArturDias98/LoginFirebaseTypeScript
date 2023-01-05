@@ -39,8 +39,13 @@ const currency = document.getElementById("currency") as HTMLSelectElement;
 const description = document.getElementById("description") as HTMLInputElement;
 
 let currentUser: User;
-
+let isUpdate: boolean;
 firebase.UserStateChanged(userChanged);
+const uid = getTransactionUid();
+if (uid) {
+  isUpdate = true;
+  findTransactions(uid);
+}
 
 function OnDateChanged() {
   const display = !dateInput.value ? "block" : "none";
@@ -66,8 +71,8 @@ function OnTransactionInfoChanged() {
 
 async function Save() {
   loading.showLoading();
-  const transactionType = isExpense.checked ? "expense" : "income";
 
+  const transactionType = isExpense.checked ? "expense" : "income";
   const model: firebase.Transaction = {
     type: transactionType,
     date: dateInput.value,
@@ -75,6 +80,7 @@ async function Save() {
       currency: currency.value,
       value: parseFloat(valueInput.value),
     },
+    uid: uid as string,
     user: {
       uid: currentUser.uid,
     },
@@ -82,17 +88,20 @@ async function Save() {
     description: description.value,
   };
 
-  const result = await firebase.SetTransaction(model);
+  if (!isUpdate) {
+    const result = await firebase.SetTransaction(model);
+
+    if (result.error) {
+      alert(result.message);
+    }
+  } else {
+    const result = await firebase.UpdateTransaction(model);
+    if (result.error) {
+      alert(result.message);
+    }
+  }
 
   loading.hideLoading();
-
-  
-
-  if (result.error) {
-    alert(result.message);
-    return;
-  }
-  //console.log(model);
   window.location.href = "./home.html";
 }
 
@@ -115,4 +124,28 @@ function toggleButton() {
 }
 function userChanged(user: User) {
   currentUser = user;
+}
+function getTransactionUid() {
+  return new URLSearchParams(window.location.search).get("uid");
+}
+async function findTransactions(uid: string) {
+  loading.showLoading();
+  const transaction = await firebase.GetTransactionByUid(uid);
+  if (!transaction) {
+    alert("Item not found");
+    window.location.href = "./home.html";
+  }
+
+  updateScreen(transaction as firebase.Transaction);
+  loading.hideLoading();
+}
+function updateScreen(transaction: firebase.Transaction) {
+  isExpense.checked = transaction.type === "expense";
+  dateInput.value = transaction.date;
+  currency.value = transaction.money.currency;
+  valueInput.value = transaction.money.value.toString();
+  description.value = transaction.description as string;
+  transactionInfo.value = transaction.info;
+
+  saveBtn.disabled = !toggleButton();
 }

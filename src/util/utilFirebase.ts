@@ -13,10 +13,12 @@ import {
   collection,
   getDocs,
   setDoc,
+  getDoc,
   doc,
   where,
   query,
   orderBy,
+  updateDoc,
 } from "firebase/firestore";
 import { firebaseErrorMessages } from "./utilities";
 
@@ -122,7 +124,10 @@ export async function GetTransactions(user: User): Promise<Transaction[]> {
 
   let data = await getDocs(_query);
 
-  const transactions = data.docs.map((doc) => doc.data()) as Transaction[];
+  const transactions = data.docs.map((doc) => ({
+    ...doc.data(),
+    uid: doc.id,
+  })) as Transaction[];
   return transactions;
 }
 export async function SetTransaction(
@@ -138,12 +143,43 @@ export async function SetTransaction(
       message: "",
       error: null,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     return (result = {
       result: false,
       message: "Error on save",
       error: error,
     });
+  }
+}
+export async function UpdateTransaction(transaction: Transaction): Promise<MessageModel> {
+  let result: MessageModel;
+  try {
+    const _doc = doc(firestore, "transactions", transaction.uid as string);
+    //const _doc = doc(collection(firestore, "transactions"), transaction.uid as string);
+    await updateDoc(_doc, transaction);
+
+    return (result = {
+      result: true,
+      message: "",
+      error: null,
+    });
+  } catch (error: any) {
+    return (result = {
+      result: false,
+      message: "Error on save",
+      error: error,
+    });
+  }
+}
+export async function GetTransactionByUid(
+  uid: string
+): Promise<Transaction | null> {
+  try {
+    const _doc = doc(firestore, "transactions", uid);
+    let data = await getDoc(_doc);
+    return data.data() as Transaction;
+  } catch (error) {
+    return null;
   }
 }
 /**
@@ -178,6 +214,7 @@ export type Transaction = {
   date: string;
   money: Money;
   info: string;
+  uid?: string;
   user: MyUser;
   description?: string;
 };
@@ -185,6 +222,6 @@ export type Money = {
   currency: string;
   value: number;
 };
-export type MyUser ={
-  uid:string
-}
+export type MyUser = {
+  uid: string;
+};

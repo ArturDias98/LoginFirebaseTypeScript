@@ -39,8 +39,13 @@ async function findTransactions(user: User) {
 }
 function addTransactionsToScreen(transactions: firebase.Transaction[]) {
   transactions.forEach((transaction) => {
+
     const li = document.createElement("li") as HTMLLIElement;
     li.classList.add(transaction.type);
+
+    li.addEventListener('click', () =>{
+      window.location.href = "./transaction.html?uid=" + transaction.uid;
+    });
 
     const date = document.createElement("p") as HTMLParagraphElement;
     date.innerHTML = formateDate(transaction.date);
