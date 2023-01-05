@@ -63,7 +63,7 @@ function addTransactionsToScreen(transactions: firebase.Transaction[]) {
   });
 }
 function formateDate(date: string) {
-  return new Date(date).toLocaleDateString("pt-br");
+  return new Date(date).toLocaleDateString("pt-br", { timeZone: "UTC" });
 }
 function formatMoney(money: firebase.Money): string {
   return `${money.currency} ${money.value.toFixed(2)}`;

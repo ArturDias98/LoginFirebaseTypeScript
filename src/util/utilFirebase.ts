@@ -12,6 +12,8 @@ import {
   getFirestore,
   collection,
   getDocs,
+  setDoc,
+  doc,
   where,
   query,
   orderBy,
@@ -108,7 +110,7 @@ export async function LogOut(): Promise<MessageModel> {
     });
   }
 }
-export async function GetTransactions(user:User): Promise<Transaction[]> {
+export async function GetTransactions(user: User): Promise<Transaction[]> {
   //Creating a query
   const collect = collection(firestore, "transactions");
 
@@ -122,7 +124,27 @@ export async function GetTransactions(user:User): Promise<Transaction[]> {
 
   const transactions = data.docs.map((doc) => doc.data()) as Transaction[];
   return transactions;
-
+}
+export async function SetTransaction(
+  model: Transaction
+): Promise<MessageModel> {
+  let result: MessageModel;
+  try {
+    //const _doc = doc(firestore, "transactions", model.user.uid);
+    const _doc = doc(collection(firestore, "transactions"));
+    await setDoc(_doc, model);
+    return (result = {
+      result: true,
+      message: "",
+      error: null,
+    });
+  } catch (error:any) {
+    return (result = {
+      result: false,
+      message: "Error on save",
+      error: error,
+    });
+  }
 }
 /**
  * Keep signed users logged.
@@ -131,7 +153,6 @@ export async function GetTransactions(user:User): Promise<Transaction[]> {
 export function UserStateChanged(callback: (user: User) => void) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      //
       callback(user);
     }
   });
@@ -157,9 +178,13 @@ export type Transaction = {
   date: string;
   money: Money;
   info: string;
+  user: MyUser;
   description?: string;
 };
 export type Money = {
   currency: string;
   value: number;
 };
+export type MyUser ={
+  uid:string
+}

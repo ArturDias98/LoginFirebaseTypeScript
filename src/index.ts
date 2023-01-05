@@ -57,7 +57,7 @@ function toggleButtons() {
   loginBtn.disabled = checkEmail || checkPassword;
 }
 
-function statusChange(user:User){
+function statusChange(user: User) {
   window.location.href = "pages/home.html";
 }
 async function loginClick() {

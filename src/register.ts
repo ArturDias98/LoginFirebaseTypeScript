@@ -76,7 +76,7 @@ async function OnRegister(e: any) {
 function OnLogin() {
   window.location.href = "../index.html";
 }
-function statusChange(user:User){
+function statusChange(user: User) {
   window.location.href = "home.html";
 }
 
