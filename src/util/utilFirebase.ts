@@ -19,6 +19,7 @@ import {
   query,
   orderBy,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { firebaseErrorMessages } from "./utilities";
 
@@ -151,7 +152,9 @@ export async function SetTransaction(
     });
   }
 }
-export async function UpdateTransaction(transaction: Transaction): Promise<MessageModel> {
+export async function UpdateTransaction(
+  transaction: Transaction
+): Promise<MessageModel> {
   let result: MessageModel;
   try {
     const _doc = doc(firestore, "transactions", transaction.uid as string);
@@ -167,6 +170,26 @@ export async function UpdateTransaction(transaction: Transaction): Promise<Messa
     return (result = {
       result: false,
       message: "Error on save",
+      error: error,
+    });
+  }
+}
+export async function DeleteTransaction(
+  transaction: Transaction
+): Promise<MessageModel> {
+  let result: MessageModel;
+  try {
+    const _doc = doc(firestore, "transactions", transaction.uid as string);
+    await deleteDoc(_doc);
+    return (result = {
+      result: true,
+      message: "",
+      error: null,
+    });
+  } catch (error: any) {
+    return (result = {
+      result: false,
+      message: "Error on delete",
       error: error,
     });
   }

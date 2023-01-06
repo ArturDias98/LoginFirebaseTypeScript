@@ -39,13 +39,21 @@ async function findTransactions(user: User) {
 }
 function addTransactionsToScreen(transactions: firebase.Transaction[]) {
   transactions.forEach((transaction) => {
-
     const li = document.createElement("li") as HTMLLIElement;
     li.classList.add(transaction.type);
-
-    li.addEventListener('click', () =>{
+    li.id = transaction.uid as string;
+    li.addEventListener("click", () => {
       window.location.href = "./transaction.html?uid=" + transaction.uid;
     });
+
+    const removeButton = document.createElement("button") as HTMLButtonElement;
+    removeButton.innerHTML = "Remove";
+    removeButton.classList.add("outline", "danger");
+    removeButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      askBeforeRemove(transaction);
+    });
+    li.appendChild(removeButton);
 
     const date = document.createElement("p") as HTMLParagraphElement;
     date.innerHTML = formateDate(transaction.date);
@@ -72,4 +80,18 @@ function formateDate(date: string) {
 }
 function formatMoney(money: firebase.Money): string {
   return `${money.currency} ${money.value.toFixed(2)}`;
+}
+async function askBeforeRemove(transaction: firebase.Transaction) {
+  const askRemove = confirm("Are you sure to delete this transaction");
+  loading.showLoading();
+  if (askRemove) {
+    const response = await firebase.DeleteTransaction(transaction);
+    if (!response.result) {
+      alert(response.error);
+    }
+    else{
+      document.getElementById(transaction.uid as string)?.remove();
+    }
+  }
+  loading.hideLoading();
 }

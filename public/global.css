@@ -100,3 +100,7 @@ header button {
 header {
   text-align: right;
 }
+.outline.danger{
+  color: orangered;
+  border-color: orangered;
+}
